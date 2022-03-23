@@ -4,6 +4,7 @@ namespace Jujiang\JJpush;
 
 use Jujiang\JJpush\xmpush\Builder;
 use Jujiang\JJpush\xmpush\Constants;
+use Jujiang\JJpush\xmpush\IOSBuilder;
 use Jujiang\JJpush\xmpush\Sender;
 
 class XM extends BasePush
@@ -11,28 +12,60 @@ class XM extends BasePush
     public function __construct(array $config)
     {
         parent::__construct($config);
-        Constants::setPackage($config['package']);
-        Constants::setSecret($config['app_secret']);
+
     }
 
     function pushAndroid($title, $content, array $extra)
     {
+        Constants::setPackage($this->config['android']['package']);
+        Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
         $res = $sender->broadcastAll($this->buildMessage($title, $content, $extra));
         print_r($res);
     }
 
+    public function pushIos($title, $content, array $extra)
+    {
+        Constants::setBundleId($this->config['ios']['package']);
+        Constants::setSecret($this->config['ios']['app_secret']);
+        $sender = new Sender();
+        $res = $sender->broadcastAll($this->buildIosMessage($title, $content, $extra));
+        print_r($res);
+    }
+
     function pushAndroidAlias($alias, $title, $content, array $extra)
     {
+        Constants::setPackage($this->config['android']['package']);
+        Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
         $res = $sender->sendToAlias($this->buildMessage($title, $content, $extra), $alias);
         print_r($res);
     }
 
+    public function pushIosAlias($alias, $title, $content, array $extra)
+    {
+        Constants::setBundleId($this->config['ios']['package']);
+        Constants::setSecret($this->config['ios']['app_secret']);
+        $sender = new Sender();
+        $res = $sender->sendToAlias($this->buildIosMessage($title, $content, $extra), $alias);
+        print_r($res);
+    }
+
     function pushAndroidTag($tag, $title, $content, array $extra)
     {
+        Constants::setPackage($this->config['android']['package']);
+        Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
         $res = $sender->broadcast($this->buildMessage($title, $content, $extra), $tag);
+        print_r($res);
+    }
+
+    public function pushIosTag($tag, $title, $content, array $extra)
+    {
+        Constants::setBundleId($this->config['ios']['package']);
+        Constants::setSecret($this->config['ios']['app_secret']);
+        $sender = new Sender();
+        $res = $sender->broadcast($this->buildIosMessage($title, $content, $extra), $tag);
         print_r($res);
     }
 
@@ -48,6 +81,20 @@ class XM extends BasePush
         }
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
         $message->notifyId(2); // 通知类型。最多支持0-4 5个取值范围，同样的类型的通知会互相覆盖，不同类型可以在通知栏并存
+        $message->build();
+        return $message;
+    }
+
+    private function buildIosMessage($title, $content, array $extra) {
+        $message = new IOSBuilder();
+        $message->title($title);  // 通知栏的title
+        $message->body($content);
+        $message->extra('title', $title);
+        $message->extra('body', $content);
+        foreach ($extra as $k => $v) {
+            $message->extra($k, $v);
+        }
+        $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
         $message->build();
         return $message;
     }
