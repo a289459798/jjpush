@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+composer.phar
+/vendor/
+/runtime/server.pid
+/runtime/sessions
+.DS_Store
+.idea/
+!.gitignore
+.phplint-cache
+
