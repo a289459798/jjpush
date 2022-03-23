@@ -1,0 +1,13 @@
+{
+  "require": {
+    "php": ">=7.2",
+    "jujiang/jjpush": "dev-master"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "./"
+    }
+  }
+}
