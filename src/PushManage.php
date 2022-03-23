@@ -11,6 +11,8 @@ class PushManage
         foreach ($config as $key => $value) {
             if ($key == 'hms') {
                 $this->pushLst[] = new Hms($value);
+            } elseif ($key == 'xm') {
+                $this->pushLst[] = new XM($value);
             }
         }
 
