@@ -9,15 +9,7 @@ class Vivo extends BasePush
 
     function pushAndroid($title, $content, array $extra)
     {
-        $client = new Client();
-        $res = $client->post('https://api-push.vivo.com.cn/message/all', [
-            'headers' => [
-                'authToken' => $this->getToken(),
-                'Content-Type' => 'application/json'
-            ],
-            'json' => $this->getData($title, $content, $extra)
-        ]);
-        print_r($this->parseBody($res));
+        $this->pushAndroidTag('all-member', $title, $content, $extra);
     }
 
     function pushAndroidAlias($alias, $title, $content, array $extra)

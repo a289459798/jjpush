@@ -15,6 +15,8 @@ class PushManage
                 $this->pushLst[$key] = new XM($value);
             } elseif ($key == 'vivo') {
                 $this->pushLst[$key] = new Vivo($value);
+            } elseif ($key == 'oppo') {
+                $this->pushLst[$key] = new Oppo($value);
             }
         }
 
