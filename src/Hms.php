@@ -27,6 +27,69 @@ class Hms extends BasePush
         $this->execPushBackground($token, $tag, $title, $content, $extra);
     }
 
+    public function setAlias($alias, $regId)
+    {
+        $client = new Client();
+        $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/topic:subscribe', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()
+            ],
+            'json' => [
+                'topic' => $alias,
+                'tokenArray' => [$regId]
+            ]
+        ]);
+        print_r($this->parseBody($res));
+    }
+
+    public function unsetAlias($alias)
+    {
+        $client = new Client();
+        $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/topic:truncate', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()
+            ],
+            'json' => [
+                'topic' => $alias,
+            ]
+        ]);
+        print_r($this->parseBody($res));
+    }
+
+    public function setTag($tag, $regId)
+    {
+        $client = new Client();
+        $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/topic:subscribe', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()
+            ],
+            'json' => [
+                'topic' => $tag,
+                'tokenArray' => [$regId]
+            ]
+        ]);
+        print_r($this->parseBody($res));
+    }
+
+    public function unsetTag($tag, $regId)
+    {
+        $client = new Client();
+        $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/topic:unsubscribe', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()
+            ],
+            'json' => [
+                'topic' => $tag,
+                'tokenArray' => [$regId]
+            ]
+        ]);
+        print_r($this->parseBody($res));
+    }
+
     private function execPush($token, $topic, $title, $content, array $extra)
     {
         $client = new Client();

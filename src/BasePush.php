@@ -47,9 +47,29 @@ abstract class BasePush implements IPush
 
     abstract function pushAndroidTag($tag, $title, $content, array $extra);
 
-    function pushIosTag($tag, $title, $content, array $extra)
+    public function pushIosTag($tag, $title, $content, array $extra)
     {
 
+    }
+
+    public function setAlias($alias, $regId)
+    {
+        echo '暂不支持';
+    }
+
+    public function unsetAlias($alias)
+    {
+        echo '暂不支持';
+    }
+
+    public function setTag($tag, $regId)
+    {
+        echo '暂不支持';
+    }
+
+    public function unsetTag($tag, $regId)
+    {
+        echo '暂不支持';
     }
 
     protected function parseBody(ResponseInterface $res)
