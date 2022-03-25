@@ -33,6 +33,6 @@ $push = new PushManage([
 ]);
 
 
-//$push->push('测试标题', '测试内容', ['a' => 1, 'b' => 2]);
-$push->pushAlias('qqqwwweee', '测试标题11222444', '测试内容22333555', ['a' => 6, 'b' => 3]);
-//$push->pushTag('qweasdzxc', '测试标题22', '测试内容33', ['a' => 77, 'b' => 88]);
+$push->setTitle('测试标题')->setContent('测试内容')->setExtra(['a' => 1, 'b' => 2])->push();
+//$push->setTitle('测试标题11222444')->setContent('测试内容22333555')->setExtra(['a' => 1, 'b' => 2])->pushAlias('qqqwwweee');
+//$push->setTitle('测试标题22')->setContent('测试内容33')->setExtra(['a' => 1, 'b' => 2])->pushTag('qweasdzxc');

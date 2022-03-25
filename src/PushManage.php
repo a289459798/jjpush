@@ -22,38 +22,63 @@ class PushManage
 
     }
 
-    /**
-     * @param $title
-     * @param $content
-     * @param array $extra 扩展字段，客户端受到后自定义处理
-     */
-    public function push($title, $content, array $extra)
+    public function setTitle(string $title){
+        foreach ($this->pushLst as $push) {
+            /**
+             * @var BasePush $push
+             */
+            $push->setTitle($title);
+        }
+        return $this;
+    }
+
+    public function setContent(string $content){
+        foreach ($this->pushLst as $push) {
+            /**
+             * @var BasePush $push
+             */
+            $push->setContent($content);
+        }
+        return $this;
+    }
+
+    public function setExtra(array $extra){
+        foreach ($this->pushLst as $push) {
+            /**
+             * @var BasePush $push
+             */
+            $push->setExtra($extra);
+        }
+        return $this;
+    }
+
+    public function push()
     {
         foreach ($this->pushLst as $push) {
             /**
              * @var IPush $push
              */
-            $push->push($title, $content, $extra);
+            $push->push();
         }
     }
 
-    public function pushAlias($alias, $title, $content, array $extra)
+    public function pushAlias($alias)
     {
         foreach ($this->pushLst as $push) {
             /**
              * @var IPush $push
              */
-            $push->pushAlias($alias, $title, $content, $extra);
+            $push->pushAlias($alias);
         }
     }
 
-    public function pushTag($tag, $title, $content, array $extra)
+    public function pushTag($tag)
     {
         foreach ($this->pushLst as $push) {
             /**
              * @var IPush $push
              */
-            $push->pushTag($tag, $title, $content, $extra);
+            $push->pushTag($tag);
         }
     }
 
@@ -62,7 +87,7 @@ class PushManage
      * @param $regId
      * @param $brand 品牌
      */
-    public function setAlias($alias, $regId, $brand)
+    public function setAlias($alias, $regId, $brand = 'xm')
     {
         if (isset($this->pushLst[$brand])) {
             $this->pushLst[$brand]->setAlias($alias, $regId);

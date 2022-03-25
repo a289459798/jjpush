@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 class Oppo extends BasePush
 {
 
-    function pushAndroid($title, $content, array $extra)
+    function pushAndroid()
     {
         $client = new Client();
         $res = $client->post('https://api.push.oppomobile.com/server/v1/message/notification/broadcast', [
@@ -16,14 +16,14 @@ class Oppo extends BasePush
                 'auth_token' => $this->getToken()
             ],
             'form_params' => [
-                'message_id' => $this->buildMessage($title, $content, $extra),
+                'message_id' => $this->buildMessage(),
                 'target_type' => 1,
             ]
         ]);
         print_r($this->parseBody($res));
     }
 
-    function pushAndroidAlias($alias, $title, $content, array $extra)
+    function pushAndroidAlias($alias)
     {
         $client = new Client();
         $res = $client->post('https://api.push.oppomobile.com/server/v1/message/notification/broadcast', [
@@ -32,7 +32,7 @@ class Oppo extends BasePush
                 'auth_token' => $this->getToken()
             ],
             'form_params' => [
-                'message_id' => $this->buildMessage($title, $content, $extra),
+                'message_id' => $this->buildMessage(),
                 'target_type' => 2,
                 'target_value' => $alias
             ]
@@ -40,11 +40,11 @@ class Oppo extends BasePush
         print_r($this->parseBody($res));
     }
 
-    function pushAndroidTag($tag, $title, $content, array $extra)
+    function pushAndroidTag($tag)
     {
     }
 
-    private function buildMessage($title, $content, array $extra)
+    private function buildMessage()
     {
         $client = new Client();
         $res = $client->post('https://api.push.oppomobile.com/server/v1/message/notification/save_message_content', [
@@ -53,13 +53,13 @@ class Oppo extends BasePush
                 'auth_token' => $this->getToken()
             ],
             'form_params' => [
-                'title' => ($title),
+                'title' => ($this->title),
                 'sub_title' => '',
-                'content' => ($content),
+                'content' => ($this->content),
                 'action_parameters' => json_encode(array_merge([
-                    'title' => ($title),
-                    'body' => ($content),
-                ], $extra), JSON_UNESCAPED_UNICODE)
+                    'title' => ($this->title),
+                    'body' => ($this->content),
+                ], $this->extra), JSON_UNESCAPED_UNICODE)
             ]
         ]);
         $body = $this->parseBody($res);

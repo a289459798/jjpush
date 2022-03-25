@@ -15,68 +15,68 @@ class XM extends BasePush
 
     }
 
-    function pushAndroid($title, $content, array $extra)
+    function pushAndroid()
     {
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcastAll($this->buildMessage($title, $content, $extra));
+        $res = $sender->broadcastAll($this->buildMessage());
         print_r($res);
     }
 
-    public function pushIos($title, $content, array $extra)
+    public function pushIos()
     {
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcastAll($this->buildIosMessage($title, $content, $extra));
+        $res = $sender->broadcastAll($this->buildIosMessage());
         print_r($res);
     }
 
-    function pushAndroidAlias($alias, $title, $content, array $extra)
+    function pushAndroidAlias($alias)
     {
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->sendToAlias($this->buildMessage($title, $content, $extra), $alias);
+        $res = $sender->sendToAlias($this->buildMessage(), $alias);
         print_r($res);
     }
 
-    public function pushIosAlias($alias, $title, $content, array $extra)
+    public function pushIosAlias($alias)
     {
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->sendToAlias($this->buildIosMessage($title, $content, $extra), $alias);
+        $res = $sender->sendToAlias($this->buildIosMessage(), $alias);
         print_r($res);
     }
 
-    function pushAndroidTag($tag, $title, $content, array $extra)
+    function pushAndroidTag($tag)
     {
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcast($this->buildMessage($title, $content, $extra), $tag);
+        $res = $sender->broadcast($this->buildMessage(), $tag);
         print_r($res);
     }
 
-    public function pushIosTag($tag, $title, $content, array $extra)
+    public function pushIosTag($tag)
     {
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcast($this->buildIosMessage($title, $content, $extra), $tag);
+        $res = $sender->broadcast($this->buildIosMessage(), $tag);
         print_r($res);
     }
 
-    private function buildMessage($title, $content, array $extra) {
+    private function buildMessage() {
         $message = new Builder();
-        $message->title($title);  // 通知栏的title
-        $message->description($content); // 通知栏的descption
+        $message->title($this->title);  // 通知栏的title
+        $message->description($this->content); // 通知栏的descption
         $message->passThrough(0);  // 这是一条通知栏消息，如果需要透传，把这个参数设置成1,同时去掉title和descption两个参数
-        $message->extra('title', $title);
-        $message->extra('body', $content);
-        foreach ($extra as $k => $v) {
+        $message->extra('title', $this->title);
+        $message->extra('body', $this->content);
+        foreach ($this->extra as $k => $v) {
             $message->extra($k, $v);
         }
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
@@ -85,13 +85,13 @@ class XM extends BasePush
         return $message;
     }
 
-    private function buildIosMessage($title, $content, array $extra) {
+    private function buildIosMessage() {
         $message = new IOSBuilder();
-        $message->title($title);  // 通知栏的title
-        $message->body($content);
-        $message->extra('title', $title);
-        $message->extra('body', $content);
-        foreach ($extra as $k => $v) {
+        $message->title($this->title);  // 通知栏的title
+        $message->body($this->content);
+        $message->extra('title', $this->title);
+        $message->extra('body', $this->content);
+        foreach ($this->extra as $k => $v) {
             $message->extra($k, $v);
         }
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0

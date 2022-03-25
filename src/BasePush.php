@@ -7,47 +7,65 @@ use Psr\Http\Message\ResponseInterface;
 abstract class BasePush implements IPush
 {
     protected $config = [];
+    protected $title;
+    protected $content;
+    protected $extra = [];
 
     public function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    public function push($title, $content, array $extra)
+    public function setTitle(string $title)
     {
-        $this->pushAndroid($title, $content, $extra);
-        $this->pushIos($title, $content, $extra);
+        $this->title = $title;
     }
 
-    abstract function pushAndroid($title, $content, array $extra);
+    public function setContent(string $content)
+    {
+        $this->content = $content;
+    }
 
-    function pushIos($title, $content, array $extra)
+    public function setExtra(array $extra)
+    {
+        $this->extra = $extra;
+    }
+
+    public function push()
+    {
+        $this->pushAndroid();
+        $this->pushIos();
+    }
+
+    abstract function pushAndroid();
+
+    function pushIos()
     {
 
     }
 
-    public function pushAlias($alias, $title, $content, array $extra)
+    public function pushAlias($alias)
     {
-        $this->pushAndroidAlias($alias, $title, $content, $extra);
-        $this->pushIosAlias($alias, $title, $content, $extra);
+        $this->pushAndroidAlias($alias);
+        $this->pushIosAlias($alias);
     }
 
-    abstract function pushAndroidAlias($alias, $title, $content, array $extra);
+    abstract function pushAndroidAlias($alias);
 
-    function pushIosAlias($alias, $title, $content, array $extra)
+    function pushIosAlias($alias)
     {
 
     }
 
-    public function pushTag($tag, $title, $content, array $extra)
+    public function pushTag($tag)
     {
-        $this->pushAndroidTag($tag, $title, $content, $extra);
-        $this->pushIosTag($tag, $title, $content, $extra);
+        $this->pushAndroidTag($tag);
+        $this->pushIosTag($tag);
     }
 
-    abstract function pushAndroidTag($tag, $title, $content, array $extra);
+    abstract function pushAndroidTag($tag);
 
-    public function pushIosTag($tag, $title, $content, array $extra)
+    public function pushIosTag($tag)
     {
 
     }

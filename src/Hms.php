@@ -6,25 +6,25 @@ use GuzzleHttp\Client;
 
 class Hms extends BasePush
 {
-    function pushAndroid($title, $content, array $extra)
+    function pushAndroid()
     {
         $token = $this->getToken();
-        $this->execPush($token, 'all-member', $title, $content, $extra);
-        $this->execPushBackground($token, 'all-member', $title, $content, $extra);
+        $this->execPush($token, 'all-member');
+        $this->execPushBackground($token, 'all-member');
     }
 
-    function pushAndroidAlias($alias, $title, $content, array $extra)
+    function pushAndroidAlias($alias)
     {
         $token = $this->getToken();
-        $this->execPush($token, $alias, $title, $content, $extra);
-        $this->execPushBackground($token, $alias, $title, $content, $extra);
+        $this->execPush($token, $alias);
+        $this->execPushBackground($token);
     }
 
-    function pushAndroidTag($tag, $title, $content, array $extra)
+    function pushAndroidTag($tag)
     {
         $token = $this->getToken();
-        $this->execPush($token, $tag, $title, $content, $extra);
-        $this->execPushBackground($token, $tag, $title, $content, $extra);
+        $this->execPush($token, $tag);
+        $this->execPushBackground($token);
     }
 
     public function setAlias($alias, $regId)
@@ -90,7 +90,7 @@ class Hms extends BasePush
         print_r($this->parseBody($res));
     }
 
-    private function execPush($token, $topic, $title, $content, array $extra)
+    private function execPush($token, $topic)
     {
         $client = new Client();
         $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/messages:send', [
@@ -102,9 +102,8 @@ class Hms extends BasePush
                 'message' => [
                     'android' => [
                         'notification' => [
-                            'title' => $title,
-                            'body' => $content,
-                            'sound' => $extra['sound'] ?? '',
+                            'title' => $this->title,
+                            'body' => $this->content,
                             'click_action' => [
                                 'type' => 3
                             ],
@@ -117,7 +116,7 @@ class Hms extends BasePush
         print_r($this->parseBody($res));
     }
 
-    private function execPushBackground($token, $topic, $title, $content, array $extra)
+    private function execPushBackground($token, $topic)
     {
         $client = new Client();
         $res = $client->post('https://push-api.cloud.huawei.com/v1/' . $this->config['appid'] . '/messages:send', [
@@ -128,9 +127,9 @@ class Hms extends BasePush
             'json' => [
                 'message' => [
                     'data' => json_encode(array_merge([
-                        'title' => $title,
-                        'body' => $content,
-                    ], $extra), JSON_UNESCAPED_UNICODE),
+                        'title' => $this->title,
+                        'body' => $this->content,
+                    ], $this->extra), JSON_UNESCAPED_UNICODE),
                     'topic' => $topic
                 ]
             ]

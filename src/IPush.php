@@ -4,9 +4,9 @@ namespace Jujiang\JJpush;
 
 interface IPush
 {
-    function push($title, $content, array $extra);
-    function pushAlias($alias, $title, $content, array $extra);
-    function pushTag($alias, $title, $content, array $extra);
+    function push();
+    function pushAlias($alias);
+    function pushTag($alias);
     function setAlias($alias, $regId);
     function unsetAlias($alias);
     function setTag($tag, $regId);

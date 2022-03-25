@@ -7,12 +7,12 @@ use GuzzleHttp\Client;
 class Vivo extends BasePush
 {
 
-    function pushAndroid($title, $content, array $extra)
+    function pushAndroid()
     {
-        $this->pushAndroidTag('all-member', $title, $content, $extra);
+        $this->pushAndroidTag('all-member');
     }
 
-    function pushAndroidAlias($alias, $title, $content, array $extra)
+    function pushAndroidAlias($alias)
     {
         $client = new Client();
         $res = $client->post('https://api-push.vivo.com.cn/message/send', [
@@ -20,12 +20,12 @@ class Vivo extends BasePush
                 'authToken' => $this->getToken(),
                 'Content-Type' => 'application/json'
             ],
-            'json' => array_merge($this->getData($title, $content, $extra), ['regId' => $alias])
+            'json' => array_merge($this->getData(), ['regId' => $alias])
         ]);
         print_r($this->parseBody($res));
     }
 
-    function pushAndroidTag($tag, $title, $content, array $extra)
+    function pushAndroidTag($tag)
     {
         $client = new Client();
         $res = $client->post('https://api-push.vivo.com.cn/message/tagPush', [
@@ -33,26 +33,26 @@ class Vivo extends BasePush
                 'authToken' => $this->getToken(),
                 'Content-Type' => 'application/json'
             ],
-            'json' => array_merge($this->getData($title, $content, $extra), ['tagExpression' => ['andTags' => [$tag]]])
+            'json' => array_merge($this->getData(), ['tagExpression' => ['andTags' => [$tag]]])
         ]);
         print_r($this->parseBody($res));
     }
 
-    private function getData($title, $content, array $extra)
+    private function getData()
     {
         return [
             'notifyType' => 3,
-            'title' => $title,
-            'content' => $content,
+            'title' => $this->title,
+            'content' => $this->content,
             'skipType' => 4,
             'skipContent' => json_encode(array_merge([
-                'title' => $title,
-                'body' => $content,
-            ], $extra), JSON_UNESCAPED_UNICODE),
+                'title' => $this->title,
+                'body' => $this->content,
+            ], $this->extra), JSON_UNESCAPED_UNICODE),
             'clientCustomMap' => array_merge([
-                'title' => $title,
-                'body' => $content,
-            ], $extra),
+                'title' => $this->title,
+                'body' => $this->content,
+            ], $this->extra),
             'pushMode' => $this->config['env'],
             'requestId' => uniqid()
         ];
