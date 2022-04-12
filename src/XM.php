@@ -20,8 +20,10 @@ class XM extends BasePush
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcastAll($this->buildMessage());
-        print_r($res);
+        $data = $sender->broadcastAll($this->buildMessage());
+        $res = $this->parseRes($data);
+        $res['platform'] = 'android';
+        return $res;
     }
 
     public function pushIos()
@@ -29,8 +31,10 @@ class XM extends BasePush
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcastAll($this->buildIosMessage());
-        print_r($res);
+        $data = $sender->broadcastAll($this->buildIosMessage());
+        $res = $this->parseRes($data);
+        $res['platform'] = 'ios';
+        return $res;
     }
 
     function pushAndroidAlias($alias)
@@ -38,8 +42,10 @@ class XM extends BasePush
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->sendToAlias($this->buildMessage(), $alias);
-        print_r($res);
+        $data = $sender->sendToAlias($this->buildMessage(), $alias);
+        $res = $this->parseRes($data);
+        $res['platform'] = 'android';
+        return $res;
     }
 
     public function pushIosAlias($alias)
@@ -47,8 +53,10 @@ class XM extends BasePush
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->sendToAlias($this->buildIosMessage(), $alias);
-        print_r($res);
+        $data = $sender->sendToAlias($this->buildIosMessage(), $alias);
+        $res = $this->parseRes($data);
+        $res['platform'] = 'ios';
+        return $res;
     }
 
     function pushAndroidTag($tag)
@@ -56,8 +64,10 @@ class XM extends BasePush
         Constants::setPackage($this->config['android']['package']);
         Constants::setSecret($this->config['android']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcast($this->buildMessage(), $tag);
-        print_r($res);
+        $data = $sender->broadcast($this->buildMessage(), $tag);
+        $res = $this->parseRes($data);
+        $res['platform'] = 'android';
+        return $res;
     }
 
     public function pushIosTag($tag)
@@ -65,8 +75,10 @@ class XM extends BasePush
         Constants::setBundleId($this->config['ios']['package']);
         Constants::setSecret($this->config['ios']['app_secret']);
         $sender = new Sender();
-        $res = $sender->broadcast($this->buildIosMessage(), $tag);
-        print_r($res);
+        $data = $sender->broadcast($this->buildIosMessage(), $tag);
+        $res = $this->parseRes($data);
+        $res['platform'] = 'android';
+        return $res;
     }
 
     private function buildMessage() {
@@ -97,5 +109,18 @@ class XM extends BasePush
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
         $message->build();
         return $message;
+    }
+
+    private function parseRes($data) {
+        $res = [];
+        $res['platform'] = 'android';
+        if ($data->getErrorCode() == 0) {
+            $res['code'] = 0;
+            $res['id'] = $data->getRaw()['trace_id'];
+        } else {
+            $res['code'] = -1;
+        }
+        $res['result'] = json_encode($data->getRaw(), JSON_UNESCAPED_UNICODE);
+        return $res;
     }
 }

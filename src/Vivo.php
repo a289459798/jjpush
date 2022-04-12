@@ -9,7 +9,7 @@ class Vivo extends BasePush
 
     function pushAndroid()
     {
-        $this->pushAndroidTag('all-member');
+        return $this->pushAndroidTag('all-member');
     }
 
     function pushAndroidAlias($alias)
@@ -22,7 +22,8 @@ class Vivo extends BasePush
             ],
             'json' => array_merge($this->getData(), ['alias' => $alias])
         ]);
-        print_r($this->parseBody($res));
+        $data = $this->parseBody($res);
+        return $this->parseRes($data);
     }
 
     function pushAndroidTag($tag)
@@ -35,7 +36,8 @@ class Vivo extends BasePush
             ],
             'json' => array_merge($this->getData(), ['tagExpression' => ['andTags' => [$tag]]])
         ]);
-        print_r($this->parseBody($res));
+        $data = $this->parseBody($res);
+        return $this->parseRes($data);
     }
 
     private function getData()
@@ -77,5 +79,19 @@ class Vivo extends BasePush
     private function getSign($time)
     {
         return strtolower(md5(trim($this->config['appid'] . $this->config['app_key'] . $time . $this->config['app_secret'])));
+    }
+
+    private function parseRes($data)
+    {
+        $res = [];
+        $res['platform'] = 'android';
+        $res['result'] = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if ($data['result'] == '0') {
+            $res['code'] = 0;
+            $res['id'] = $data['taskId'];
+        } else {
+            $res['code'] = -1;
+        }
+        return $res;
     }
 }

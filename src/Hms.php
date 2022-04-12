@@ -9,22 +9,25 @@ class Hms extends BasePush
     function pushAndroid()
     {
         $token = $this->getToken();
-        $this->execPush($token, 'all-member');
+        $data = $this->execPush($token, 'all-member');
         $this->execPushBackground($token, 'all-member');
+        return $this->parseRes($data);
     }
 
     function pushAndroidAlias($alias)
     {
         $token = $this->getToken();
-        $this->execPush($token, $alias);
-        $this->execPushBackground($token);
+        $data = $this->execPush($token, $alias);
+        $this->execPushBackground($token, $alias);
+        return $this->parseRes($data);
     }
 
     function pushAndroidTag($tag)
     {
         $token = $this->getToken();
-        $this->execPush($token, $tag);
-        $this->execPushBackground($token);
+        $data = $this->execPush($token, $tag);
+        $this->execPushBackground($token, $tag);
+        return $this->parseRes($data);
     }
 
     public function setAlias($alias, $regId)
@@ -114,7 +117,7 @@ class Hms extends BasePush
                 ]
             ]
         ]);
-        print_r($this->parseBody($res));
+        return $this->parseBody($res);
     }
 
     private function execPushBackground($token, $topic)
@@ -135,7 +138,7 @@ class Hms extends BasePush
                 ]
             ]
         ]);
-        print_r($this->parseBody($res));
+        return $this->parseBody($res);
     }
 
     private function getToken()
@@ -153,5 +156,19 @@ class Hms extends BasePush
         ]);
         $body = $this->parseBody($res);
         return $body['access_token'];
+    }
+
+    private function parseRes($data)
+    {
+        $res = [];
+        $res['platform'] = 'android';
+        $res['result'] = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if ($data['code'] == '80000000') {
+            $res['code'] = 0;
+            $res['id'] = $data['requestId'];
+        } else {
+            $res['code'] = -1;
+        }
+        return $res;
     }
 }

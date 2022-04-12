@@ -54,32 +54,38 @@ class PushManage
 
     public function push()
     {
-        foreach ($this->pushLst as $push) {
+        $res = [];
+        foreach ($this->pushLst as $k => $push) {
             /**
              * @var IPush $push
              */
-            $push->push();
+            $res[$k] = $push->push();
         }
+        return $res;
     }
 
     public function pushAlias($alias)
     {
-        foreach ($this->pushLst as $push) {
+        $res = [];
+        foreach ($this->pushLst as $k => $push) {
             /**
              * @var IPush $push
              */
-            $push->pushAlias($alias);
+            $res[$k] = $push->pushAlias($alias);
         }
+        return $res;
     }
 
     public function pushTag($tag)
     {
-        foreach ($this->pushLst as $push) {
+        $res = [];
+        foreach ($this->pushLst as $k => $push) {
             /**
              * @var IPush $push
              */
-            $push->pushTag($tag);
+            $res[$k] = $push->pushTag($tag);
         }
+        return $res;
     }
 
     /**

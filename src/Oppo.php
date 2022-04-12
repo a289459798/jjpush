@@ -20,7 +20,8 @@ class Oppo extends BasePush
                 'target_type' => 1,
             ]
         ]);
-        print_r($this->parseBody($res));
+        $data = $this->parseBody($res);
+        return $this->parseRes($data);
     }
 
     function pushAndroidAlias($alias)
@@ -37,7 +38,8 @@ class Oppo extends BasePush
                 'target_value' => $alias
             ]
         ]);
-        print_r($this->parseBody($res));
+        $data = $this->parseBody($res);
+        return $this->parseRes($data);
     }
 
     function pushAndroidTag($tag)
@@ -54,7 +56,8 @@ class Oppo extends BasePush
                 'target_value' => '{ "and" : ["' . $tag . '"]}'
             ]
         ]);
-        print_r($this->parseBody($res));
+        $data = $this->parseBody($res);
+        return $this->parseRes($data);
     }
 
     public function setAlias($alias, $regId)
@@ -160,5 +163,19 @@ class Oppo extends BasePush
         ]);
         $body = $this->parseBody($res);
         return $body['data']['auth_token'];
+    }
+
+    private function parseRes($data)
+    {
+        $res = [];
+        $res['platform'] = 'android';
+        $res['result'] = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if ($data['code'] == '0') {
+            $res['code'] = 0;
+            $res['id'] = $data['data']['message_id'];
+        } else {
+            $res['code'] = -1;
+        }
+        return $res;
     }
 }

@@ -33,8 +33,16 @@ abstract class BasePush implements IPush
 
     public function push()
     {
-        $this->pushAndroid();
-        $this->pushIos();
+        $res = [];
+        $android = $this->pushAndroid();
+        $ios = $this->pushIos();
+        if (!empty($android)) {
+            $res[] = $android;
+        }
+        if (!empty($ios)) {
+            $res[] = $ios;
+        }
+        return $res;
     }
 
     abstract function pushAndroid();
@@ -46,8 +54,16 @@ abstract class BasePush implements IPush
 
     public function pushAlias($alias)
     {
-        $this->pushAndroidAlias($alias);
-        $this->pushIosAlias($alias);
+        $res = [];
+        $android = $this->pushAndroidAlias($alias);
+        $ios = $this->pushIosAlias($alias);
+        if (!empty($android)) {
+            $res[] = $android;
+        }
+        if (!empty($ios)) {
+            $res[] = $ios;
+        }
+        return $res;
     }
 
     abstract function pushAndroidAlias($alias);
@@ -59,8 +75,16 @@ abstract class BasePush implements IPush
 
     public function pushTag($tag)
     {
-        $this->pushAndroidTag($tag);
-        $this->pushIosTag($tag);
+        $res = [];
+        $android = $this->pushAndroidTag($tag);
+        $ios = $this->pushIosTag($tag);
+        if (!empty($android)) {
+            $res[] = $android;
+        }
+        if (!empty($ios)) {
+            $res[] = $ios;
+        }
+        return $res;
     }
 
     abstract function pushAndroidTag($tag);
