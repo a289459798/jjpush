@@ -92,7 +92,7 @@ class XM extends BasePush
             $message->extra($k, $v);
         }
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
-        $message->notifyId(2); // 通知类型。最多支持0-4 5个取值范围，同样的类型的通知会互相覆盖，不同类型可以在通知栏并存
+        $message->notifyId(rand(0,4)); // 通知类型。最多支持0-4 5个取值范围，同样的类型的通知会互相覆盖，不同类型可以在通知栏并存
         $message->build();
         return $message;
     }
