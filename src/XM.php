@@ -88,6 +88,7 @@ class XM extends BasePush
         $message->passThrough(0);  // 这是一条通知栏消息，如果需要透传，把这个参数设置成1,同时去掉title和descption两个参数
         $message->extra('title', $this->title);
         $message->extra('body', $this->content);
+        $message->extra(Builder::soundUri, 'default');
         foreach ($this->extra as $k => $v) {
             $message->extra($k, $v);
         }
@@ -101,6 +102,7 @@ class XM extends BasePush
         $message = new IOSBuilder();
         $message->title($this->title);  // 通知栏的title
         $message->body($this->content);
+        $message->soundUrl('default');
         $message->extra('title', $this->title);
         $message->extra('body', $this->content);
         foreach ($this->extra as $k => $v) {
