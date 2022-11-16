@@ -17,6 +17,8 @@ class PushManage
                 $this->pushLst[$key] = new Vivo($value);
             } elseif ($key == 'oppo') {
                 $this->pushLst[$key] = new Oppo($value);
+            } elseif ($key == 'umeng') {
+                $this->pushLst[$key] = new UMeng($value);
             }
         }
 

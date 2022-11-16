@@ -29,6 +29,11 @@ $push = new PushManage([
     'oppo' => [
         'app_key' => '56bdcf4739314192a921cd60a16e38e1',
         'app_secret' => '97e42b573e974c52abe3865345a6a229',
+    ],
+    'umeng' => [
+        'app_key' => '56bdcf4739314192a921cd60a16e38e1',
+        'app_secret' => '97e42b573e974c52abe3865345a6a229',
+        'env' => 1, // 0 正式  1测试
     ]
 ]);
 
