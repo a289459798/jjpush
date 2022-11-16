@@ -19,21 +19,21 @@ class UMeng extends BasePush
 {
     public function pushIos()
     {
-        $res = $this->pushMessage('broadcast');
+        $res = $this->parseRes($this->pushMessage('broadcast'));
         $res['platform'] = 'ios';
         return $res;
     }
 
     public function pushIosAlias($alias)
     {
-        $res = $this->pushMessage('alias', $alias);
+        $res = $this->parseRes($this->pushMessage('alias', $alias));
         $res['platform'] = 'ios';
         return $res;
     }
 
     public function pushIosTag($tag)
     {
-        $res = $this->pushMessage('tag');
+        $res = $this->parseRes($this->pushMessage('tag'));
         $res['platform'] = 'ios';
         return $res;
     }
@@ -82,6 +82,20 @@ class UMeng extends BasePush
             'json' => $data
         ]);
         return $this->parseBody($res);
+    }
+
+    private function parseRes($data)
+    {
+        $res = [];
+        $res['platform'] = 'android';
+        $res['result'] = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if ($data['ret'] == 'SUCCESS') {
+            $res['code'] = 0;
+            $res['id'] = $data['data']['task_id'];
+        } else {
+            $res['code'] = -1;
+        }
+        return $res;
     }
 
     function pushAndroid()
