@@ -28,13 +28,13 @@ class XM extends BasePush
 
     public function pushIos()
     {
-        Constants::setBundleId($this->config['ios']['package']);
-        Constants::setSecret($this->config['ios']['app_secret']);
-        $sender = new Sender();
-        $data = $sender->broadcastAll($this->buildIosMessage());
-        $res = $this->parseRes($data);
-        $res['platform'] = 'ios';
-        return $res;
+//        Constants::setBundleId($this->config['ios']['package']);
+//        Constants::setSecret($this->config['ios']['app_secret']);
+//        $sender = new Sender();
+//        $data = $sender->broadcastAll($this->buildIosMessage());
+//        $res = $this->parseRes($data);
+//        $res['platform'] = 'ios';
+//        return $res;
     }
 
     function pushAndroidAlias($alias)
@@ -50,13 +50,13 @@ class XM extends BasePush
 
     public function pushIosAlias($alias)
     {
-        Constants::setBundleId($this->config['ios']['package']);
-        Constants::setSecret($this->config['ios']['app_secret']);
-        $sender = new Sender();
-        $data = $sender->sendToAlias($this->buildIosMessage(), $alias);
-        $res = $this->parseRes($data);
-        $res['platform'] = 'ios';
-        return $res;
+//        Constants::setBundleId($this->config['ios']['package']);
+//        Constants::setSecret($this->config['ios']['app_secret']);
+//        $sender = new Sender();
+//        $data = $sender->sendToAlias($this->buildIosMessage(), $alias);
+//        $res = $this->parseRes($data);
+//        $res['platform'] = 'ios';
+//        return $res;
     }
 
     function pushAndroidTag($tag)
@@ -72,13 +72,13 @@ class XM extends BasePush
 
     public function pushIosTag($tag)
     {
-        Constants::setBundleId($this->config['ios']['package']);
-        Constants::setSecret($this->config['ios']['app_secret']);
-        $sender = new Sender();
-        $data = $sender->broadcast($this->buildIosMessage(), $tag);
-        $res = $this->parseRes($data);
-        $res['platform'] = 'android';
-        return $res;
+//        Constants::setBundleId($this->config['ios']['package']);
+//        Constants::setSecret($this->config['ios']['app_secret']);
+//        $sender = new Sender();
+//        $data = $sender->broadcast($this->buildIosMessage(), $tag);
+//        $res = $this->parseRes($data);
+//        $res['platform'] = 'android';
+//        return $res;
     }
 
     private function buildMessage() {
