@@ -69,7 +69,7 @@ class UMeng extends BasePush
                     'body' => $this->content,
                 ]
             ],
-            'badge' => 1,
+            'badge' => '+1',
         ], $this->extra);
         $data['production_mode'] = !$this->config['env'];
         $appSecret = $this->config['app_secret'];
