@@ -18,10 +18,6 @@ $push = new PushManage([
         'android' => [
             'package' => 'xxx',
             'app_secret' => 'xxxx'
-        ],
-        'ios' => [
-            'package' => 'cxxxx',
-            'app_secret' => 'xxxx'
         ]
     ],
     'vivo' => [
@@ -31,6 +27,10 @@ $push = new PushManage([
         'env' => 1, // 0 正式  1测试
     ],
     'oppo' => [
+        'app_key' => 'xxxx',
+        'app_secret' => 'xxxxxx',
+    ],
+    'umeng' => [
         'app_key' => 'xxxx',
         'app_secret' => 'xxxxxx',
     ]
