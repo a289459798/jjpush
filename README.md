@@ -14,6 +14,7 @@ $push = new PushManage([
         'client_id' => 'xxxx',
         'client_secret' => 'xxxx',
     ],
+    // 不匹配的机型，全部走小米推送
     'xm' => [
         'android' => [
             'package' => 'xxx',
@@ -30,6 +31,7 @@ $push = new PushManage([
         'app_key' => 'xxxx',
         'app_secret' => 'xxxxxx',
     ],
+    // 仅支持ios应用
     'umeng' => [
         'app_key' => 'xxxx',
         'app_secret' => 'xxxxxx',
