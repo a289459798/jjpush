@@ -36,7 +36,7 @@ $push = new PushManage([
         'app_key' => 'xxxx',
         'app_secret' => 'xxxxxx',
     ]
-]);
+], 'jujiang://push');
 
 // 广播
 $push->setTitle('测试标题')->setContent('测试内容')->setExtra(['a' => 1, 'b' => 2])->push();
