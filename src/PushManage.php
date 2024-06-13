@@ -6,19 +6,19 @@ class PushManage
 {
     private $pushLst = [];
 
-    public function __construct(array $config)
+    public function __construct(array $config, $schema = '')
     {
         foreach ($config as $key => $value) {
             if ($key == 'hms') {
-                $this->pushLst[$key] = new Hms($value);
+                $this->pushLst[$key] = new Hms($value, $schema);
             } elseif ($key == 'xm') {
-                $this->pushLst[$key] = new XM($value);
+                $this->pushLst[$key] = new XM($value, $schema);
             } elseif ($key == 'vivo') {
-                $this->pushLst[$key] = new Vivo($value);
+                $this->pushLst[$key] = new Vivo($value, $schema);
             } elseif ($key == 'oppo') {
-                $this->pushLst[$key] = new Oppo($value);
+                $this->pushLst[$key] = new Oppo($value, $schema);
             } elseif ($key == 'umeng') {
-                $this->pushLst[$key] = new UMeng($value);
+                $this->pushLst[$key] = new UMeng($value, $schema);
             }
         }
 

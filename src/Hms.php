@@ -109,7 +109,7 @@ class Hms extends BasePush
                             'body' => $this->content,
                             'click_action' => [
                                 'type' => 1,
-                                'intent' => 'jujiangpush://push?' . http_build_query($this->extra)
+                                'intent' => $this->schema . '?' . http_build_query($this->extra)
                             ],
                         ]
                     ],

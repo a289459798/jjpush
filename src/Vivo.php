@@ -48,7 +48,7 @@ class Vivo extends BasePush
             'content' => $this->content,
             'skipType' => 4,
             'classification' => 1,
-            'skipContent' => 'jujiangpush://push?' . http_build_query($this->extra),
+            'skipContent' => $this->schema . '?' . http_build_query($this->extra),
             'clientCustomMap' => array_merge([
                 'title' => $this->title,
                 'body' => $this->content,

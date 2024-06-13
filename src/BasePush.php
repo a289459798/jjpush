@@ -11,9 +11,14 @@ abstract class BasePush implements IPush
     protected $content;
     protected $extra = [];
 
-    public function __construct(array $config)
+    protected $schema = 'jujiangpush://push';
+
+    public function __construct(array $config, $schema = '')
     {
         $this->config = $config;
+        if (!empty($schema)) {
+            $this->schema = $schema;
+        }
     }
 
     public function setTitle(string $title)

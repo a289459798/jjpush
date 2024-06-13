@@ -136,7 +136,7 @@ class Oppo extends BasePush
                 'sub_title' => '',
                 'content' => ($this->content),
                 'click_action_type' => 5,
-                'click_action_url' => 'jujiangpush://push?' . http_build_query($this->extra),
+                'click_action_url' => $this->schema . '?' . http_build_query($this->extra),
                 'action_parameters' => json_encode(array_merge([
                     'title' => ($this->title),
                     'body' => ($this->content),
