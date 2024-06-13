@@ -26,17 +26,6 @@ class XM extends BasePush
         return $res;
     }
 
-    public function pushIos()
-    {
-//        Constants::setBundleId($this->config['ios']['package']);
-//        Constants::setSecret($this->config['ios']['app_secret']);
-//        $sender = new Sender();
-//        $data = $sender->broadcastAll($this->buildIosMessage());
-//        $res = $this->parseRes($data);
-//        $res['platform'] = 'ios';
-//        return $res;
-    }
-
     function pushAndroidAlias($alias)
     {
         Constants::setPackage($this->config['android']['package']);
@@ -48,17 +37,6 @@ class XM extends BasePush
         return $res;
     }
 
-    public function pushIosAlias($alias)
-    {
-//        Constants::setBundleId($this->config['ios']['package']);
-//        Constants::setSecret($this->config['ios']['app_secret']);
-//        $sender = new Sender();
-//        $data = $sender->sendToAlias($this->buildIosMessage(), $alias);
-//        $res = $this->parseRes($data);
-//        $res['platform'] = 'ios';
-//        return $res;
-    }
-
     function pushAndroidTag($tag)
     {
         Constants::setPackage($this->config['android']['package']);
@@ -68,17 +46,6 @@ class XM extends BasePush
         $res = $this->parseRes($data);
         $res['platform'] = 'android';
         return $res;
-    }
-
-    public function pushIosTag($tag)
-    {
-//        Constants::setBundleId($this->config['ios']['package']);
-//        Constants::setSecret($this->config['ios']['app_secret']);
-//        $sender = new Sender();
-//        $data = $sender->broadcast($this->buildIosMessage(), $tag);
-//        $res = $this->parseRes($data);
-//        $res['platform'] = 'android';
-//        return $res;
     }
 
     private function buildMessage() {
@@ -96,21 +63,6 @@ class XM extends BasePush
         $message->extra('intent_uri', 'jujiangpush://push?' . http_build_query($this->extra));
         $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
         $message->notifyId(rand(0,4)); // 通知类型。最多支持0-4 5个取值范围，同样的类型的通知会互相覆盖，不同类型可以在通知栏并存
-        $message->build();
-        return $message;
-    }
-
-    private function buildIosMessage() {
-        $message = new IOSBuilder();
-        $message->title($this->title);  // 通知栏的title
-        $message->body($this->content);
-        $message->soundUrl('default');
-        $message->extra('title', $this->title);
-        $message->extra('body', $this->content);
-        foreach ($this->extra as $k => $v) {
-            $message->extra($k, $v);
-        }
-        $message->extra(Builder::notifyForeground, 1); // 应用在前台是否展示通知，如果不希望应用在前台时候弹出通知，则设置这个参数为0
         $message->build();
         return $message;
     }
