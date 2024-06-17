@@ -49,6 +49,7 @@ class Vivo extends BasePush
             'skipType' => 4,
             'category' => 'DEVICE_REMINDER',
             'skipContent' => $this->schema . '?' . http_build_query($this->extra),
+            'addBadge' => true,
             'clientCustomMap' => array_merge([
                 'title' => $this->title,
                 'body' => $this->content,
