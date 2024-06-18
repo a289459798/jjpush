@@ -135,6 +135,9 @@ class Hms extends BasePush
                         'title' => $this->title,
                         'body' => $this->content,
                     ], $this->extra), JSON_UNESCAPED_UNICODE),
+                    'android' => [
+                        'category' => $this->extra['hms_category'] ?? '',
+                    ],
                     'topic' => $topic
                 ]
             ]
