@@ -137,7 +137,7 @@ class Oppo extends BasePush
                 'content' => ($this->content),
                 'click_action_type' => 5,
                 'click_action_url' => $this->schema . '?' . http_build_query($this->extra),
-                'channel_id' => $this->extra['channel_id'] ?? '',
+                'channel_id' => $this->extra['oppo_channel_id'] ?? '',
                 'action_parameters' => json_encode(array_merge([
                     'title' => ($this->title),
                     'body' => ($this->content),
