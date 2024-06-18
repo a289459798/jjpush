@@ -104,6 +104,7 @@ class Hms extends BasePush
             'json' => [
                 'message' => [
                     'android' => [
+                        'category' => $this->extra['hms_category'] ?? '',
                         'notification' => [
                             'title' => $this->title,
                             'body' => $this->content,
